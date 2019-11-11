@@ -1,0 +1,32 @@
+section {
+  a {
+    color: brown;
+    font-size: 20px;
+  }
+  .thumbnail {
+    width: 100%;
+  }
+  .price {
+    font-weight: 600;
+    sup {
+      color: brown;
+    }
+  }
+  .quantity-selector {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid;
+    justify-content: space-around;
+    align-items: center;
+    p {
+      margin-bottom: 0;
+      border-left: 1px solid;
+      border-right: 1px solid;
+      padding: 0 10px;
+    }
+    a {
+      cursor: pointer;
+    }
+  }
+  min-height: 500px;
+}

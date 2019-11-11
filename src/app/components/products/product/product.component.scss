@@ -1,0 +1,18 @@
+.product{
+    .info{
+        a{
+            font-weight:600;
+            font-size: 20px;
+        }
+    }
+    min-height: 175px;
+    .price{
+        font-weight: 600;
+        sup{
+            color:brown;
+        }
+    }
+    .thumbnail{
+        width:100%;
+    }
+}

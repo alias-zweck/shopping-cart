@@ -1,0 +1,15 @@
+<h1>ShoppingCart</h1>
+<br><br>
+
+<select id =products onchange="categories()">
+    <option value="electronics">electronics</option>
+    <option value="clothes">clothes</option>
+    <option value="footwear">footwear</option>
+    <option value="furnitures">furnitures</option>
+  </select>
+
+<div>
+    <h2>Products</h2>
+
+</div>
+<app-product *ngFor="let product of [1,2,3]"></app-product>

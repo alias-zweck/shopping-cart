@@ -11,5 +11,5 @@ export class SummaryComponent implements OnInit {
 
   ngOnInit() {
   }
-total=5;
+
 }

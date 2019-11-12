@@ -3,22 +3,24 @@
     <div class="row">
         <!--  <input type="checkbox" name="selected">-->
         <div class="col-md-1 border border">
-            <b>slno</b>
+            <div>slno</div>
         </div>
-        <div class="col-md-8 border border">
+        <div class="col-md-7 border border">
             <p>product</p>
         </div>
-        <div class="col-md-3 border border">
+        <div class="col-md-4 border border">
             <p>price:</p>
         </div>
     </div>
     <div class="row product border border py-3" *ngFor="let serialno of [1,2,3]">
-        {{serialno}}
-        <div class="col-md 2 ">
+        <div class="col-md-1">
+            {{  serialno}}
+        </div>
+        <div class="col-md-3">
             <img class="thumbnail"
                 src="https://dks.scene7.com/is/image/dkscdn/17NWBWFLCRNRGZXXXWLK_Black_White_is?wid=1080&fmt=jpg">
         </div>
-        <div class="col-md-6 info ">
+        <div class="col-md-4 info ">
             <a>Nike c234</a>
         </div>
         <div class="col-md-4">

@@ -1,15 +1,10 @@
 <h1>ShoppingCart</h1>
 <br><br>
-
-<select id =products onchange="categories()">
-    <option value="electronics">electronics</option>
-    <option value="clothes">clothes</option>
-    <option value="footwear">footwear</option>
-    <option value="furnitures">furnitures</option>
+<div class="category-box">
+  <h2>Products</h2>
+  <select class="box-style" [(ngModel)]="categoryValue">
+    <option *ngFor="let category of productService.categories" [value]="category">{{category}}</option>
   </select>
-
-<div>
-    <h2>Products</h2>
-
 </div>
-<app-product *ngFor="let product of [1,2,3]"></app-product>
+
+<app-product [product]="product" *ngFor="let product of productService.products | category : categoryValue | async"></app-product>

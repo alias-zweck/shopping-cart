@@ -6,5 +6,5 @@
     <option *ngFor="let category of productService.categories" [value]="category">{{category}}</option>
   </select>
 </div>
-
-<app-product [product]="product" *ngFor="let product of productService.products | category : categoryValue | async"></app-product>
+<app-product [product]="product" *ngFor="let product of productService.products | category : categoryValue | async">
+</app-product>

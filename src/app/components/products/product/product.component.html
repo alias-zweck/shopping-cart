@@ -1,14 +1,14 @@
 <div class="row product border border py-3">
     <div class="col-md 2">
-        <img class="thumbnail"
-            [src]="product.image">
+        <img class="thumbnail" [src]="product.image">
     </div>
     <div class="col-md-8 info ">
         <a>{{product.name}}</a>
         <p>{{product.description}}</p>
     </div>
     <div class="col-md-2">
-        <p class="price " > <sup>₹</sup> {{product.price}}</p>
-        <button (click)="cart()" type="button" class="btn btn-outline-primary">Add to cart</button>
+        <p class="price "> <sup>₹</sup> {{product.price}}</p>
+        <button (click)="cartService.addToCart(product)" type="button" class="btn btn-outline-primary">Add to
+            cart</button>
     </div>
 </div>

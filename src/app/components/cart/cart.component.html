@@ -1,4 +1,5 @@
 <section>
+    <!--<div *ngIf="productCount" {{}}></div>-->
     <a>Shopping cart</a>
     <div class="row">
         <!--  <input type="checkbox" name="selected">-->
@@ -12,24 +13,31 @@
             <p>price:</p>
         </div>
     </div>
-    <div class="row product border border py-3" *ngFor="let serialno of [1,2,3]">
+    <div class="row product border border py-3" *ngFor="let cartProduct of cartService.products|async">
         <div class="col-md-1">
-            {{  serialno}}
+            <!-- {{  serialno}} -->
         </div>
         <div class="col-md-3">
-            <img class="thumbnail"
-                src="https://dks.scene7.com/is/image/dkscdn/17NWBWFLCRNRGZXXXWLK_Black_White_is?wid=1080&fmt=jpg">
+            <img class="thumbnail" [src]="cartProduct.product.image">
         </div>
         <div class="col-md-4 info ">
-            <a>Nike c234</a>
+            <a>{{cartProduct.product.name}}</a>
         </div>
         <div class="col-md-4">
-            <p class="price "> <sup>₹</sup> 2342.00</p>
+            <p class="price "> <sup>₹</sup> {{cartProduct.product.price}}</p>
             <div class="quantity-selector">
-                <a>-</a>
-                <p>item</p>
-                <a>+</a>
+                <a (click)="cartService.removeFromCart(cartProduct.product)">-</a>
+                <p>{{cartProduct.count}}</p>
+                <a (click)="cartService.addToCart(cartProduct.product)">+</a>
+                <!--<button (click)="cartService.clearCart(cartProduct)">clear cart</button>-->
             </div>
+
         </div>
+        <!-- <button (click)="cartService.clearCart(cartProduct)">clear cart</button> -->
     </div>
+    <button *ngIf="(cartService.products | async)?.length" (click)="cartService.clearCart(cartProduct)"
+        class="btn btn-outline-primary">clear cart</button>
+    <button *ngIf="(cartService.products | async)?.length" (click)="cartService.placeOrder(cartProduct)"
+        class="btn btn-outline-primary">place_order</button>
+
 </section>

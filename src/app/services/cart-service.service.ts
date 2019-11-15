@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from '../models/product.interface';
 import { CartProduct } from '../models/CartProduct.interface';
+import { FormGroup } from '@angular/forms';
 
 
 @Injectable({
@@ -9,68 +10,95 @@ import { CartProduct } from '../models/CartProduct.interface';
 })
 export class CartServiceService {
 
-  public _cartProduct: BehaviorSubject<CartProduct[]> = new BehaviorSubject([]);
-  public total = 0;
+  public cartProduct: BehaviorSubject<CartProduct[]> = new BehaviorSubject([]);
+  public total: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
+  public get products(): Observable<CartProduct[]> {
+    return this.cartProduct.asObservable();
+  }
+
+  public get sharedTotal(): Observable<number> {
+    return this.total.asObservable();
+  }
+
   constructor() { }
 
-  get products(): Observable<CartProduct[]> {
-    return this._cartProduct.asObservable();
-  }
-  addToCart(product: Product) {
-    if (this._cartProduct.value.find(cartProduct => cartProduct.product.name == product.name)) {
-      console.log("found");
-      this._cartProduct.value.forEach(cartProduct => {
-        if (cartProduct.product.name == product.name) {
+  /**
+   * TODO:
+   * Rewrite the logic
+   * @author basil kurian
+   * @param product product
+   * @use add a product to cart--if product exists its count value gets incremented
+   */
+  public addToCart(product: Product) {
+    if (this.cartProduct.value.find(cartProduct => cartProduct.product.name === product.name)) {
+      this.cartProduct.value.forEach(cartProduct => {
+        if (cartProduct.product.name === product.name) {
           cartProduct.count += 1;
-          console.log("hello", cartProduct.count);
         }
-        return cartProduct;
-      })
-    }
-    else {
-      console.log("not found")
+      });
+    } else {
       const cartProduct: CartProduct = {
-        product: product,
+        product,   // object literal
         count: 1
       };
-      this._cartProduct.next([...this._cartProduct.value, cartProduct]);
+      this.cartProduct.next([...this.cartProduct.value, cartProduct]);
     }
-    // Check whether producr already in cart
-    console.log('existing cart', this._cartProduct.value)
-
-    // if increment
-
-    // else add
-
-    // this._cartProduct.next([...this._cartProduct.value, product]);
-
-
   }
-  removeFromCart(product: Product) {
-    if (this._cartProduct.value.find(cartProduct => cartProduct.product.name == product.name)) {
-      console.log("found");
-      this._cartProduct.value.forEach(cartProduct => {
-        if (cartProduct.product.name == product.name) {
+
+
+  /**
+   * @author basil kurian
+   * @param product product
+   * @use remove a product from cart--if product exists its count value gets decremented
+   * if count value less than 1 product get replaced from cart
+   */
+  public removeFromCart(product: Product) {
+    if (this.cartProduct.value.find(cartsProduct => cartsProduct.product.name === product.name)) {
+      this.cartProduct.value.forEach(cartProduct => {
+        if (cartProduct.product.name === product.name) {
           cartProduct.count -= 1;
           if (cartProduct.count < 1) {
-            console.log('ivde')
-            const filteredcart = this._cartProduct.value.filter(cartProduct => cartProduct.product.name != product.name);
-            this._cartProduct.next(filteredcart);
+            const filteredCart = this.cartProduct.value.filter(cartsProduct => cartsProduct.product.name !== product.name);
+            this.cartProduct.next(filteredCart);
+            this.total.next(0);
           }
-          console.log('existing cart', this._cartProduct.value)
         }
-      })
+      });
     }
   }
-  clearCart(product: CartProduct) {
-    this._cartProduct.next([])
+
+  /**
+   * @author basil kurian
+   * @param product product
+   * @use clear all products from cart
+   */
+  public clearCart(product: CartProduct) {
+    this.cartProduct.next([]),
+      this.total.next(0);
   }
-  placeOrder(cartproduct: Product) {
-    let total=0;
-    this._cartProduct.value.forEach(cartproduct => {
+
+  /**
+   * @author basil kurian
+   * @param cartproduct cart product
+   * @param total total
+   * @use calculate the total amount of products in cart
+   */
+  public placeOrder() {
+    let total = 0;
+    this.cartProduct.value.forEach((cartproduct): void => {
       total += cartproduct.product.price * cartproduct.count;
-    })
-    console.log("total", total)
-   
+    });
+    this.total.next(total);
+  }
+
+  /**
+   * @author basil kurian
+   * @param checkOutData check out data
+   * @use  display the formdata and products in the console
+   */
+  public checkOut(checkOutData: FormGroup) {
+    console.log(checkOutData);
+    console.log(this.cartProduct.value);
   }
 }

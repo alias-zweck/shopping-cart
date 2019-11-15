@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Product } from './models/product.interface';
 import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 
 @Pipe({
@@ -9,10 +9,9 @@ import { map, filter } from 'rxjs/operators';
 })
 
 export class CategoryPipe implements PipeTransform {
-
   transform(products: Observable<Product[]>, category: string) {
     return products.pipe(
-      map(products => products.filter(product => product.category == category))
+      map(product => product.filter(productItem => productItem.category === category))
     );
   }
 }

@@ -1,10 +1,12 @@
-<h1>ShoppingCart</h1>
-<br><br>
-<div class="category-box">
-  <h2>Products</h2>
-  <select class="box-style" [(ngModel)]="categoryValue">
-    <option *ngFor="let category of productService.categories" [value]="category">{{category}}</option>
-  </select>
+<div>
+  <h1> Sh<h1 class="spinner-border" role="status"></h1>ppingCart</h1>
+  <div class="category-box">
+    <h2 class="d-inline p-2 bg-primary text-white">Products</h2>
+    <select class="box-style" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [(ngModel)]="categoryValue">categories
+      <option *ngFor="let category of productService.categories" [value]="category">{{category}}</option>
+    </select>
+  </div>
+  <app-product [product]="product" *ngFor="let product of productService.products | category : categoryValue | async">
+  </app-product>
 </div>
-<app-product [product]="product" *ngFor="let product of productService.products | category : categoryValue | async">
-</app-product>

@@ -3,6 +3,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from '../models/product.interface';
 import { CartProduct } from '../models/CartProduct.interface';
 import { FormGroup } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -21,7 +24,7 @@ export class CartServiceService {
     return this.total.asObservable();
   }
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   /**
    * TODO:
@@ -31,6 +34,7 @@ export class CartServiceService {
    * @use add a product to cart--if product exists its count value gets incremented
    */
   public addToCart(product: Product) {
+    console.log(this.cartProduct.value);
     if (this.cartProduct.value.find(cartProduct => cartProduct.product.name === product.name)) {
       this.cartProduct.value.forEach(cartProduct => {
         if (cartProduct.product.name === product.name) {
@@ -44,6 +48,7 @@ export class CartServiceService {
       };
       this.cartProduct.next([...this.cartProduct.value, cartProduct]);
     }
+    this.saveToLocalStorage();
   }
 
 
@@ -73,9 +78,10 @@ export class CartServiceService {
    * @param product product
    * @use clear all products from cart
    */
-  public clearCart(product: CartProduct) {
+  public clearCart() {
     this.cartProduct.next([]),
       this.total.next(0);
+    localStorage.removeItem('items');
   }
 
   /**
@@ -98,7 +104,31 @@ export class CartServiceService {
    * @use  display the formdata and products in the console
    */
   public checkOut(checkOutData: FormGroup) {
-    console.log(checkOutData);
-    console.log(this.cartProduct.value);
+    console.log(1111, checkOutData);
+    console.log(222222, this.cartProduct);
+
+    return this.http.post(`${environment.apiBaseUri}/checkout`, { checkOutData, product: this.cartProduct.value }).pipe(map(response => response)).toPromise();
+  }
+  /**
+   * @author basil kurian
+   * @use save data from cart to local storage
+   * @date 19 nov,2019
+   */
+  public saveToLocalStorage() {
+    console.log('11111111111');
+    console.log(this.cartProduct);
+    localStorage.setItem('items', JSON.stringify(this.cartProduct.value));
+  }
+
+  /**
+   * @author basil kurian
+   * @use fetch data from local storage and checks if there is data then push to cart
+   * @date 19 nov,2019
+   */
+  public fetchDataFromStorage() {
+    const data = JSON.parse(localStorage.getItem('items'));
+    if (data) {
+      this.cartProduct.next(data);
+    }
   }
 }

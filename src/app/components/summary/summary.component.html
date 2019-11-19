@@ -2,21 +2,35 @@
     <p class="d-inline p-2 bg-primary text-white py-2">Summary</p>
     <h4 class="text-success py-3"> Total amount:{{cartService.total | async}}</h4>
     <div>
-        <form [formGroup]="userProfile" (ngSubmit)="onSubmit()">
+        <form [formGroup]="userProfile" class="formcontrol" (ngSubmit)="onSubmit()">
             <label for="inputsm">First Name
                 <input class="form-control input-sm" type="text" formControlName="firstName">
+                <div *ngIf="userProfile.get('firstName').hasError('required')  &&  userProfile.get('firstName').touched">
+                    Name is required.
+                </div>
             </label>
             <label for="inputdefault">Last Name
                 <input class="form-control" type="text" formControlName="lastName">
+                <div *ngIf="userProfile.get('lastName').hasError('required')  &&  userProfile.get('lastName').touched">
+                       Last name is required.
+                    </div>
             </label>
             <label for="inputlg">Address
                 <input class="form-control input-lg" type="text" formControlName="address">
+                <div *ngIf="userProfile.get('address').hasError('required')  &&  userProfile.get('address').touched">
+                        Address is required.
+                    </div>
             </label>
             <label for="inputsm">Mobile no.
                 <input class="form-control input-lg" type="number" formControlName="mobileNo">
+                <div *ngIf="userProfile.get('mobileNo').hasError('required')  &&  userProfile.get('mobileNo').touched">
+                        Mobile number  is required.
+                    </div>
+
             </label>
             <div>
-                <button type="submit" [disabled]="isLoading" class="btn btn-outline-success">Checkout
+                <button type="submit" [disabled]="isLoading || userProfile.invalid"
+                    class="btn btn-outline-success">Checkout
                     <div *ngIf="isLoading" class="spinner-border" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>

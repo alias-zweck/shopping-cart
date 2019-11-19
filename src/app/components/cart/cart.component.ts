@@ -10,5 +10,6 @@ export class CartComponent implements OnInit {
   @Input() cart: CartProduct[];
   constructor(public cartService: CartServiceService) { }
   ngOnInit() {
+    this.cartService.fetchDataFromStorage();
   }
 }

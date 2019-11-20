@@ -1,0 +1,25 @@
+<section>
+    <a class="d-inline p-2 bg-success text-white">Shopping cart</a>
+    <div class="row product border border py-3" *ngFor="let cartProduct of cartService.products|async">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-3">
+            <img class="thumbnail" [src]="cartProduct.product.image">
+        </div>
+        <div class="col-md-4 info ">
+            <a>{{cartProduct.product.name}}</a>
+        </div>
+        <div class="col-md-4">
+            <p class="price "> <sup>₹</sup> {{cartProduct.product.price}}</p>
+            <div class="quantity-selector">
+                <a (click)="cartService.removeFromCart(cartProduct.product)">-</a>
+                <p>{{cartProduct.count}}</p>
+                <a (click)="cartService.addToCart(cartProduct.product)">+</a>
+            </div>
+        </div>
+    </div>
+    <button *ngIf="(cartService.products | async)?.length" (click)="cartService.clearCart(cartProduct)"
+        class="btn btn-outline-primary">clear cart</button>
+    <button *ngIf="(cartService.products | async)?.length" (click)="cartService.placeOrder(cartProduct)"
+        class="btn btn-outline-primary">place_order</button>
+</section>

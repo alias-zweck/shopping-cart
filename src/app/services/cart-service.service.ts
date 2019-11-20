@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from '../models/product.interface';
 import { CartProduct } from '../models/CartProduct.interface';
-import { FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
@@ -27,11 +26,11 @@ export class CartServiceService {
   constructor(private http: HttpClient) { }
 
   /**
-   * TODO:
-   * Rewrite the logic
-   * @author basil kurian
-   * @param product product
-   * @use add a product to cart--if product exists its count value gets incremented
+   * Add a product to cart--if product exists its count value gets incremented
+   *
+   * @author Basil kurian
+   * @param {Product} product product
+   * @date 20 Nov, 2019
    */
   public addToCart(product: Product) {
     console.log(this.cartProduct.value);
@@ -51,12 +50,12 @@ export class CartServiceService {
     this.saveToLocalStorage();
   }
 
-
   /**
-   * @author basil kurian
-   * @param product product
-   * @use remove a product from cart--if product exists its count value gets decremented
-   * if count value less than 1 product get replaced from cart
+   * Remove a product from cart, if product exists its count value gets decremented, if count value less than 1 product get replaced from cart
+   *
+   * @author Basil kurian
+   * @param {Product} product product
+   * @date 20 Nov, 2019
    */
   public removeFromCart(product: Product) {
     if (this.cartProduct.value.find(cartsProduct => cartsProduct.product.name === product.name)) {
@@ -74,9 +73,10 @@ export class CartServiceService {
   }
 
   /**
-   * @author basil kurian
-   * @param product product
-   * @use clear all products from cart
+   * Clear all products from cart
+   *
+   * @author Basil kurian
+   * @date 20 Nov, 2019
    */
   public clearCart() {
     this.cartProduct.next([]),
@@ -85,10 +85,12 @@ export class CartServiceService {
   }
 
   /**
-   * @author basil kurian
-   * @param cartproduct cart product
-   * @param total total
-   * @use calculate the total amount of products in cart
+   * Calculate the total amount of products in cart
+   *
+   * @author Basil kurian
+   * @param {cartProduct} cartproduct Cart product
+   * @param {any} total total
+   * @date 20 Nov, 2019
    */
   public placeOrder() {
     let total = 0;
@@ -99,36 +101,36 @@ export class CartServiceService {
   }
 
   /**
-   * @author basil kurian
-   * @param checkOutData check out data
-   * @use  display the formdata and products in the console
+   * Display the formdata and products in the console
+   *
+   * @author Basil kurian
+   * @param {any} checkOutData Check out data
+   * @return Promise any
    */
-  public checkOut(checkOutData: FormGroup) {
-    console.log(1111, checkOutData);
-    console.log(222222, this.cartProduct);
-
+  public checkOut(checkOutData: any): Promise<any> {
     return this.http.post(`${environment.apiBaseUri}/checkout`, { checkOutData, product: this.cartProduct.value }).pipe(map(response => response)).toPromise();
   }
+
   /**
-   * @author basil kurian
-   * @use save data from cart to local storage
-   * @date 19 nov,2019
+   * Save data from cart to local storage
+   *
+   * @author Basil kurian
+   * @date 19 Nov, 2019
    */
   public saveToLocalStorage() {
-    console.log('11111111111');
-    console.log(this.cartProduct);
     localStorage.setItem('items', JSON.stringify(this.cartProduct.value));
   }
 
   /**
-   * @author basil kurian
-   * @use fetch data from local storage and checks if there is data then push to cart
-   * @date 19 nov,2019
+   * Fetch data from local storage and checks if there is data then push to cart
+   *
+   * @author Basil kurian
+   * @date 19 Nov, 2019
    */
   public fetchDataFromStorage() {
-    const data = JSON.parse(localStorage.getItem('items'));
-    if (data) {
-      this.cartProduct.next(data);
+    const dataFromStorage = JSON.parse(localStorage.getItem('items'));
+    if (dataFromStorage) {
+      this.cartProduct.next(dataFromStorage);
     }
   }
 }

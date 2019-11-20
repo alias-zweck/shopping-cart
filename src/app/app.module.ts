@@ -8,7 +8,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { SummaryComponent } from './components/summary/summary.component';
 import { ProductComponent } from './components/products/product/product.component';
 import { CategoryPipe } from './category.pipe';
-import {ReactiveFormsModule} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({

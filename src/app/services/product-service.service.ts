@@ -1,6 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Product } from '../models/product.interface';
+import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -10,23 +8,28 @@ import { environment } from 'src/environments/environment';
 })
 export class ProductServiceService {
 
-  public categories: string[] = ['footwear', 'clothes', 'electronics', 'furnitures'];
-  // private product: BehaviorSubject<Product[]> = new BehaviorSubject([]);
-
   constructor(private http: HttpClient) { }
 
-  // /**
-  //  * @author basil kurian
-  //  * @use set products as an  observable variable
-  //  */
-  // public get products(): Observable<Product[]> {
-  //   return this.product.asObservable();
-  // }
+  /**
+   * Get categories from the backend
+   *
+   * @author Basil kurian
+   * @return Promise any
+   * @date 20 Nov, 2019
+   */
+  public getCategories(): Promise<any> {
+    return this.http.get(`${environment.apiBaseUri}/category`, {}).pipe(map(response => response)).toPromise();
+  }
 
-
+  /**
+   * Get products from backend
+   *
+   * @author Basil kurian
+   * @return Promise any
+   * @date 20 Nov, 2019
+   */
   public listProducts(): Promise<any> {
     return this.http.get(`${environment.apiBaseUri}/products`, {}).pipe(map(response => response)).toPromise();
   }
-
 }
 

@@ -4,10 +4,9 @@
     <h2 class="d-inline p-2 bg-primary text-white">Products</h2>
     <select class="box-style" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [(ngModel)]="categoryValue">categories
-      <option *ngFor="let category of productService.categories" [value]="category">{{category}}</option>
+      <option *ngFor="let category of categories" [value]="category">{{category}}</option>
     </select>
   </div>
   <app-product [product]="product" *ngFor="let product of products | category : categoryValue">
-    <!-- <app-product [product]="product" *ngFor="let product of products"> -->
   </app-product>
 </div>

@@ -9,7 +9,6 @@ import { Validators } from '@angular/forms';
   styleUrls: ['./summary.component.scss']
 })
 export class SummaryComponent implements OnInit {
-  public grandTotal = 0;
   public isLoading = false;
   public userProfile = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -22,28 +21,26 @@ export class SummaryComponent implements OnInit {
   ngOnInit() { }
 
   /**
-   * @author basil kurian
-   * @use used to pass userDetails to cartService
-   * @date 19,nov 2019
+   * Used to pass userDetails to cartService
+   *
+   * @author Basil kurian
+   * @date 19 Nov, 2019
    */
   public async onSubmit() {
-    console.log(this.userProfile);
     this.isLoading = !this.isLoading;
     const res = await this.cartService.checkOut(this.userProfile.value);
-    console.log('res====>', res);
     this.clearall();
   }
 
   /**
-   * @author basil kurian
-   * @use clear all contents,disable button
-   * @date : nov 19, 2019
+   * Clear all contents,disable button
+   *
+   * @author Basil kurian
+   * @date 19 Nov, 2019
    */
   public clearall() {
     this.isLoading = false;
     this.userProfile.reset();
     this.cartService.clearCart();
-
   }
-
 }

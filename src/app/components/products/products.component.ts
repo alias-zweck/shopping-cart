@@ -8,10 +8,14 @@ import { Product } from 'src/app/models/product.interface';
   styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent implements OnInit {
+  public categories = [];
   public categoryValue = 'footwear';
   public products: Product[] = [];
+
   constructor(public productService: ProductServiceService) { }
+
   async ngOnInit() {
+    this.categories = await this.productService.getCategories();
     this.products = await this.productService.listProducts();
   }
 }
